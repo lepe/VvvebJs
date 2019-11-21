@@ -17,10 +17,12 @@ if (isset($_POST['startTemplateUrl']) && !empty($_POST['startTemplateUrl']))
 {
 	$html = substr($_POST['html'], 0, MAX_FILE_LIMIT);
 }
+$html = preg_replace("/contenteditable=[\"|'][^'\"]*[\"|']/", "", $html);
 
 $fileName = sanitizeFileName($_POST['fileName']);
 
-if (file_put_contents($fileName, $html)) 
-	echo $fileName;
+$fileName = "../html/".str_replace("php","html", basename($fileName));
+if (file_put_contents($fileName, $html))
+	echo basename($fileName);
 else 
 	echo 'Error saving file '  . $fileName;
