@@ -17,25 +17,26 @@ if (isset($_POST['startTemplateUrl']) && !empty($_POST['startTemplateUrl']))
 {
 	$html = substr($_POST['html'], 0, MAX_FILE_LIMIT);
 }
+// Clear edition attributes:
 $html = preg_replace("/contenteditable=[\"|'][^'\"]*[\"|']/", "", $html);
-/* TODO:
+$html = preg_replace("/spellcheckker=[\"|'][^'\"]*[\"|']/", "", $html);
+
+/* Extract section from HTML */
+// TODO: do the same for footer and header
 $dom = new DOMDocument();
 $dom->loadHTML($html);
 
 $xpath = new DOMXPath($dom);
-$parentNode = $xpath->query("//[@id='sensors']");
+$parentNode = $xpath->query("//section[@id='sensors']");
 
 $html = '';
 foreach ($parentNode->item(0)->childNodes as $node) {
     $html .= $node->ownerDocument->saveHtml($node);
 }
 
-echo $html;
-exit;
-*/
 $fileName = sanitizeFileName($_POST['fileName']);
 
-$fileName = "../html/".str_replace("php","html", basename($fileName));
+$fileName = "../html/".str_replace(".php","", basename($fileName)).".html";
 if (file_put_contents($fileName, $html))
 	echo basename($fileName);
 else 
