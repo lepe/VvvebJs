@@ -8,7 +8,6 @@ function sanitizeFileName($fileName)
 	$fileName = __DIR__ . '/' . preg_replace('@\?.*$@' , '', preg_replace('@\.{2,}@' , '', preg_replace('@[^\/\\a-zA-Z0-9\-\._]@', '', $fileName)));
 	return $fileName;
 }
-
 $html = "";
 if (isset($_POST['startTemplateUrl']) && !empty($_POST['startTemplateUrl'])) 
 {
@@ -26,6 +25,11 @@ $pageID = str_replace(".php","", basename($fileName));
 
 $ok = key_exists($pageID, $PAGES);
 if($ok) {
+    // TODO: do the same for footer and header
+    $dom = new DOMDocument();
+    $dom->loadHTML($html);
+    $xpath = new DOMXPath($dom);
+
     foreach($PAGES[$pageID] as $page) {
         if($ok) {
             $lookFor = ""
@@ -38,11 +42,6 @@ if($ok) {
                     $lookFor = "//section[@id='$page']"
                 }
             }
-            // TODO: do the same for footer and header
-            $dom = new DOMDocument();
-            $dom->loadHTML($html);
-
-            $xpath = new DOMXPath($dom);
             $parentNode = $xpath->query("//$lookFor");
             $html = '';
             foreach ($parentNode->item(0)->childNodes as $node) {
