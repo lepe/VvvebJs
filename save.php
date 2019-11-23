@@ -23,7 +23,9 @@ $html = preg_replace("/spellcheckker=[\"|'][^'\"]*[\"|']/", "", $html);
 
 $fileName = sanitizeFileName($_POST['fileName']);
 $pageID = str_replace(".php","", basename($fileName));
-
+if($pageID == "editor" || str_replace("/","",$pageID) == "") {
+    $pageID = "index";
+}
 $ok = key_exists($pageID, $PAGES);
 if($ok) {
     // TODO: do the same for footer and header
@@ -48,9 +50,16 @@ if($ok) {
                 $html = $dom->saveHtml($parentNode->item(0));
                 $fileName = "../html/$page.html";
                 $ok = (file_put_contents($fileName, $html));
+                if(!$ok) {
+                    echo "Page: $page failed. ";
+                }
+            } else {
+                echo "Node: $lookFor, not found. ";
             }
         }
     }
+} else {
+    echo "Page didn't exists. ";
 }
 if($ok) {
     echo 'Saved successfully!';
