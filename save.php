@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . "/../inc/" . "pages.php");
 define('MAX_FILE_LIMIT', 1024 * 1024 * 2);//2 Megabytes max html file size
 
 function sanitizeFileName($fileName)
@@ -13,31 +14,47 @@ if (isset($_POST['startTemplateUrl']) && !empty($_POST['startTemplateUrl']))
 {
 	$startTemplateUrl = sanitizeFileName($_POST['startTemplateUrl']);
 	$html = file_get_contents($startTemplateUrl);
-} else if (isset($_POST['html']))
-{
+} else if (isset($_POST['html'])) {
 	$html = substr($_POST['html'], 0, MAX_FILE_LIMIT);
 }
 // Clear edition attributes:
 $html = preg_replace("/contenteditable=[\"|'][^'\"]*[\"|']/", "", $html);
 $html = preg_replace("/spellcheckker=[\"|'][^'\"]*[\"|']/", "", $html);
 
-/* Extract section from HTML */
-// TODO: do the same for footer and header
-$dom = new DOMDocument();
-$dom->loadHTML($html);
-
-$xpath = new DOMXPath($dom);
-$parentNode = $xpath->query("//section[@id='sensors']");
-
-$html = '';
-foreach ($parentNode->item(0)->childNodes as $node) {
-    $html .= $node->ownerDocument->saveHtml($node);
-}
-
 $fileName = sanitizeFileName($_POST['fileName']);
+$pageID = str_replace(".php","", basename($fileName));
 
-$fileName = "../html/".str_replace(".php","", basename($fileName)).".html";
-if (file_put_contents($fileName, $html))
-	echo basename($fileName);
-else 
-	echo 'Error saving file '  . $fileName;
+$ok = key_exists($pageID, $PAGES);
+if($ok) {
+    foreach($PAGES[$pageID] as $page) {
+        if($ok) {
+            $lookFor = ""
+            if(key_exists($page, $TAGS)) {
+                $lookFor = $TAGS[$page];
+            } else {
+                if($page == "header" || $page == "footer") {
+                    $lookFor = "//$page";
+                } else {
+                    $lookFor = "//section[@id='$page']"
+                }
+            }
+            // TODO: do the same for footer and header
+            $dom = new DOMDocument();
+            $dom->loadHTML($html);
+
+            $xpath = new DOMXPath($dom);
+            $parentNode = $xpath->query("//$lookFor");
+            $html = '';
+            foreach ($parentNode->item(0)->childNodes as $node) {
+                $html .= $node->ownerDocument->saveHtml($node);
+            }
+            $fileName = "../html/$page.html";
+            $ok = (file_put_contents($fileName, $html));
+        }
+    }
+}
+if($ok) {
+    echo 'Saved successfully!';
+} else {
+    echo 'Error saving page';
+}
