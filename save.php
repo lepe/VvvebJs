@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . "/../inc/" . "pages.php");
+require_once(__DIR__ . "/../inc/" . "links.php");
 define('MAX_FILE_LIMIT', 1024 * 1024 * 2);//2 Megabytes max html file size
 
 function sanitizeFileName($fileName)
@@ -43,12 +44,11 @@ if($ok) {
                 }
             }
             $parentNode = $xpath->query("//$lookFor");
-            $html = '';
-            foreach ($parentNode->item(0)->childNodes as $node) {
-                $html .= $node->ownerDocument->saveHtml($node);
+            if($parentNode) {
+                $html = $dom->saveHtml($parentNode->item(0));
+                $fileName = "../html/$page.html";
+                $ok = (file_put_contents($fileName, $html));
             }
-            $fileName = "../html/$page.html";
-            $ok = (file_put_contents($fileName, $html));
         }
     }
 }
