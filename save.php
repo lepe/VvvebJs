@@ -32,14 +32,14 @@ if($ok) {
 
     foreach($PAGES[$pageID] as $page) {
         if($ok) {
-            $lookFor = ""
+            $lookFor = "";
             if(key_exists($page, $TAGS)) {
                 $lookFor = $TAGS[$page];
             } else {
                 if($page == "header" || $page == "footer") {
                     $lookFor = "//$page";
                 } else {
-                    $lookFor = "//section[@id='$page']"
+                    $lookFor = "//section[@id='$page']";
                 }
             }
             $parentNode = $xpath->query("//$lookFor");

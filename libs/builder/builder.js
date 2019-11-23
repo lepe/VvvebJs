@@ -1470,7 +1470,7 @@ Vvveb.Gui = {
 		var url = Vvveb.FileManager.getCurrentUrl();
 		
 		return Vvveb.Builder.saveAjax(url, null, function (data) {
-			$('#message-modal').modal().find(".modal-body").html("File saved at: " + data);
+			$('#message-modal').modal().find(".modal-body").html(">" + data);
 		});		
 	},
 	
