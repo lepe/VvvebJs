@@ -2424,6 +2424,11 @@ Vvveb.Components.extend("_base", "html/button", {
         htmlAttr: "innerHTML",
         inputtype: TextInput
     }, {
+        name: "Url",
+        key : "href",
+        htmlAttr: "href",
+        inputtype: LinkInput
+    }, {
         name: "Name",
         key: "name",
         htmlAttr: "name",
