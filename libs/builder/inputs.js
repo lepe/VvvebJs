@@ -178,7 +178,7 @@ var LinkInput = $.extend({}, TextInput, {
 	 ],
 	
 	init: function(data) {
-		return this.render("textinput", data);
+		return this.render("linkinput", data);
 	},
   }
 );
