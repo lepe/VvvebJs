@@ -20,6 +20,10 @@ if (isset($_POST['startTemplateUrl']) && !empty($_POST['startTemplateUrl']))
 // Clear edition attributes:
 $html = preg_replace("/contenteditable=[\"|'][^'\"]*[\"|']/", "", $html);
 $html = preg_replace("/spellcheckker=[\"|'][^'\"]*[\"|']/", "", $html);
+// Replace links
+foreach($LINKS as $name => $link) {
+    $html = str_replace('"'.$link.'"', "LINKS.$name", $html);
+}
 
 $fileName = sanitizeFileName($_POST['fileName']);
 $pageID = str_replace(".php","", basename($fileName));
