@@ -18,3 +18,4 @@ function watch() {
 
 exports.watch = watch;
 exports.compile = compile;
+exports.default = compile;

@@ -4,8 +4,9 @@
 	ol
 	{
 		padding: 0.3rem 0 0 2rem;
-		width: 300px;
-		width: $builder-right-panel-width + 15;
+		//width: 300px;
+		//width: $builder-right-panel-width + 15;
+		width: 100%;
 		font-size:12px;
 		color:#555;
 
@@ -32,6 +33,19 @@
 					color:#007bff;
 					//font-weight:600;
 				}
+				a.remove {
+			        display: none;
+				}
+			}
+
+			a.remove
+			{
+				display: block;
+			    position: absolute;
+                right: 5px;
+                top: 0;
+                font-size: 1.6em;
+                text-decoration: none;
 			}
 		}
 		
