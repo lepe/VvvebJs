@@ -1368,7 +1368,7 @@ Vvveb.Builder = {
 			}
 		});					
 	},
-	
+
 	setDesignerMode: function(designerMode = false)
 	{
 		this.designerMode = designerMode;
@@ -1473,7 +1473,7 @@ Vvveb.Gui = {
 			$('#message-modal').modal().find(".modal-body").html("> " + data);
 		});		
 	},
-	
+
 	download : function () {
 		filename = /[^\/]+$/.exec(Vvveb.Builder.iframe.src)[0];
 		uriContent = "data:application/octet-stream,"  + encodeURIComponent(Vvveb.Builder.getHtml());
@@ -1723,7 +1723,7 @@ Vvveb.FileManager = {
 			return false;			
 		})
 		
-		$(this.tree).on("click", "li[data-component] label ", function (e) {
+		$(this.tree).on("click", "li[data-component] label", function (e) {
 			node = $(e.currentTarget.parentNode).data("node");
 			
 			Vvveb.Builder.frameHtml.animate({
@@ -1741,6 +1741,15 @@ Vvveb.FileManager = {
 			$(node).trigger("mousemove");
 			
 		});
+
+		$(this.tree).on("click", "li[data-page] a.remove", function(e) {
+		    var page = $(e.currentTarget).closest("li").data("page");
+		    if(confirm("Are you sure you want to remove ["+page+"] page?")) {
+                Vvveb.FileManager.removeAjax(page, function() {
+                    $(Vvveb.FileManager.tree).find("li[data-page="+page+"]").remove();
+                });
+		    }
+		})
 	},
 	
 	addPage: function(name, data) {
@@ -1884,6 +1893,28 @@ Vvveb.FileManager = {
 		var scroll = this.tree.parent();	
 		scroll.scrollTop(scroll.prop("scrollHeight"));	
 	},
+
+	removeAjax: function(page, callback)
+	{
+		var data = {};
+		data["delete"] = true;
+		data["page"] = page;
+
+		$.ajax({
+			type: "POST",
+			url: 'save.php',//set your server side save script url
+			data: data,
+			cache: false,
+			success: function (data) {
+
+				if (callback && data == "OK") callback();
+
+			},
+			error: function (data) {
+				alert(data.responseText);
+			}
+		});
+	}
 }
 
 

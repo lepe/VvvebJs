@@ -9,6 +9,29 @@ function sanitizeFileName($fileName)
 	$fileName = __DIR__ . '/' . preg_replace('@\?.*$@' , '', preg_replace('@\.{2,}@' , '', preg_replace('@[^\/\\a-zA-Z0-9\-\._]@', '', $fileName)));
 	return $fileName;
 }
+function sanitizeName($name)
+{
+	//sanitize, remove double dot .. and remove get parameters if any
+	$fileName = preg_replace('/[^a-zA-Z0-9\-\_]/', '', $name);
+	return $fileName;
+}
+
+if (isset($_POST["delete"])) {
+	$page = sanitizeName($_POST['page']);
+	$ok = "Unable to remove: $page";
+    if(key_exists($page, $PAGES)) {
+        $fileName = "../html/$page.html";
+        if(unlink($fileName)) {
+            $pages = file_get_contents(PAGES_FILE);
+            $pages = preg_replace('/^'.$page.'=.*$/m',"", $pages);
+            file_put_contents(PAGES_FILE, $pages);
+            $ok = "OK";
+        }
+    }
+    echo $ok;
+    exit;
+}
+
 $html = "";
 if (isset($_POST['startTemplateUrl']) && !empty($_POST['startTemplateUrl'])) 
 {

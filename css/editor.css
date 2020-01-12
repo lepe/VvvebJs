@@ -2207,7 +2207,7 @@ html {
   font-family: sans-serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: transparent; }
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block; }
@@ -7595,7 +7595,7 @@ button.bg-dark:focus {
   z-index: 1;
   pointer-events: auto;
   content: "";
-  background-color: transparent; }
+  background-color: rgba(0, 0, 0, 0); }
 
 .m-0 {
   margin: 0 !important; }
@@ -9204,8 +9204,7 @@ https://github.com/givanz/VvvebJs
 /* CSS Tree menu styles */
 .tree ol {
   padding: 0.3rem 0 0 2rem;
-  width: 300px;
-  width: 30vw;
+  width: 100%;
   font-size: 12px;
   color: #555; }
   .tree ol li {
@@ -9219,6 +9218,15 @@ https://github.com/givanz/VvvebJs
       color: #007bff; }
     .tree ol li.active > label > span, .tree ol li.active > a > span {
       color: #007bff; }
+    .tree ol li.active a.remove {
+      display: none; }
+    .tree ol li a.remove {
+      display: block;
+      position: absolute;
+      right: 5px;
+      top: 0;
+      font-size: 1.6em;
+      text-decoration: none; }
   .tree ol li.file > label {
     background: url(../libs/builder/icons/file.svg) 12px 0px no-repeat;
     background-size: 19px 18px;
@@ -9285,27 +9293,27 @@ body {
   background: #eee;
   --builder-filemanager-height: 250px;
   --builder-canvas-margin: 0px;
-  --builder-header-top-height: 40px;
-  --builder-bottom-panel-height: 35px;
-  --drag-items-tabs-height: 90px;
+  --builder-header-top-height:40px;
+  --builder-bottom-panel-height:35px;
+  --drag-items-tabs-height:90px;
   scrollbar-color: rgba(0, 0, 0, 0.1) #fff;
   scrollbar-width: thin; }
   @media (min-width: 576px) {
     body {
-      --builder-left-panel-width: 25vw;
-      --builder-right-panel-width: 25vw; } }
+      --builder-left-panel-width:25vw;
+      --builder-right-panel-width:25vw; } }
   @media (min-width: 768px) {
     body {
-      --builder-left-panel-width: 25vw;
-      --builder-right-panel-width: 25vw; } }
+      --builder-left-panel-width:25vw;
+      --builder-right-panel-width:25vw; } }
   @media (min-width: 992px) {
     body {
-      --builder-left-panel-width: 25vw;
-      --builder-right-panel-width: 25vw; } }
+      --builder-left-panel-width:25vw;
+      --builder-right-panel-width:25vw; } }
   @media (min-width: 1200px) {
     body {
-      --builder-left-panel-width: 20vw;
-      --builder-right-panel-width: 20vw; } }
+      --builder-left-panel-width:20vw;
+      --builder-right-panel-width:20vw; } }
   @media (min-width: 1600px) {
     body {
       --builder-left-panel-width: 15vw;
@@ -9671,7 +9679,7 @@ body {
   display: none; }
 
 #vvveb-builder.no-right-panel {
-  --builder-right-panel-width: 0px; }
+  --builder-right-panel-width:0px; }
   #vvveb-builder.no-right-panel #right-panel {
     display: none; }
 
@@ -10163,12 +10171,14 @@ ul.autocomplete li.selected {
   background-color: Highlight;
   color: #fff; }
 
-.btn-light:not(:disabled):not(.disabled):active, .btn-light:not(:disabled):not(.disabled).active, .show > .btn-light.dropdown-toggle {
+.btn-light:not(:disabled):not(.disabled):active, .btn-light:not(:disabled):not(.disabled).active,
+.show > .btn-light.dropdown-toggle {
   box-shadow: 0px 0px 1px 0px rgba(255, 255, 255, 0.1);
   background-color: rgba(66, 133, 244, 0.07);
   border-radius: 0px;
   border-color: transparent; }
-  .btn-light:not(:disabled):not(.disabled):active:focus, .btn-light:not(:disabled):not(.disabled).active:focus, .show > .btn-light.dropdown-toggle:focus {
+  .btn-light:not(:disabled):not(.disabled):active:focus, .btn-light:not(:disabled):not(.disabled).active:focus,
+  .show > .btn-light.dropdown-toggle:focus {
     box-shadow: 0px 0px 1px 0px rgba(66, 133, 244, 0.2); }
 
 .nav-tabs .nav-item:first-child .nav-link {
@@ -10177,7 +10187,8 @@ ul.autocomplete li.selected {
 .nav-tabs .nav-link {
   text-align: center; }
 
-.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
   color: #495057;
   background-color: #fff;
   border-color: #fff #dee2e6 #fff #dee2e6;
@@ -10186,5 +10197,3 @@ ul.autocomplete li.selected {
 .nav-fill .nav-link {
   padding-left: 0rem;
   padding-right: 0rem; }
-
-/*# sourceMappingURL=editor.css.map */
